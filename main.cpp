@@ -5,7 +5,6 @@ using namespace std;
 
 int main() {
     for (int i = 1; i < 1001; i++) {
-        char
         FILE* sourcefile = fopen(('s' + to_string(i) + ".vag").c_str(), "rb+");
         if (!sourcefile) {
             printf("Can't open source file in set %d.\n", i);
@@ -53,7 +52,21 @@ int main() {
         for (int j = 0; j < delta; j++)
             fwrite(&temp, 1, 1, newfile);
         char last[15] = {'', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'};
-        fwrite(last, 15, 1, newfile);
+        fwrite(last, 15, 1, newfile);if (found == 0) {
+            printf("Bad source .vag, can't change file weight.\n");
+            continue;
+        }
+        fclose(sourcefile);
+        fclose(newfile);
+        if(remove(('s' + to_string(i) + ".vag").c_str()) != 0 ) {
+            printf("Error deleting original file.");
+            break;
+        }
+        int result = rename(('n' + to_string(i) + ".vag").c_str(), ('s' + to_string(i) + ".vag").c_str());
+        if (result != 0) {
+            printf("The file could not be renamed.");
+            break;
+        }
         printf("File set %d switched.\n", i);
     }
     system("pause");
